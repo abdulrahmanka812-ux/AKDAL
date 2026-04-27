@@ -24,9 +24,10 @@
         .input-wrapper { flex: 1; display: flex; gap: 10px; }
         input { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px; font-family: 'Tajawal'; font-size: 14px; }
         .readonly { background: #f8f9fa; font-weight: 800; color: var(--akdal-dark); cursor: not-allowed; }
-        .highlight-row { background: #f0fdf4; padding: 15px; border-radius: 10px; border: 1px solid #dcfce7; }
-        .action-panel { margin-top: 40px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; }
-        .action-btn { padding: 16px; border: none; border-radius: 10px; cursor: pointer; font-family: 'Tajawal'; font-weight: 800; transition: 0.3s; }
+        .highlight-row { background: #fffcf5; padding: 15px; border-radius: 10px; border: 1px solid #f1e3d4; }
+        .sale-row { background: #f0fdf4; padding: 15px; border-radius: 10px; border: 1px solid #dcfce7; }
+        .action-panel { margin-top: 40px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; border-top: 2px solid #eee; padding-top: 25px; }
+        .action-btn { padding: 16px; border: none; border-radius: 10px; cursor: pointer; font-family: 'Tajawal'; font-weight: 800; font-size: 15px; transition: 0.3s; }
         .btn-pdf { background: #d32f2f; color: white; }
         .btn-whatsapp { background: #25d366; color: white; }
         .btn-save { background: var(--akdal-dark); color: var(--akdal-bronze); border: 1px solid var(--akdal-bronze); }
@@ -40,21 +41,28 @@
         <div class="study-title"><h2>تقرير دراسة جدوى</h2><p>مشروع تطوير عقاري</p></div>
     </div>
     
-    <div class="section-title">بيانات الاستحواذ والبناء</div>
+    <div class="section-title">بيانات الاستحواذ على الأرض</div>
     <div class="field-group"><div class="field-label">مساحة الأرض (م2)</div><div class="input-wrapper"><input type="number" id="landArea" oninput="calculateAll()"></div></div>
     <div class="field-group"><div class="field-label">سعر شراء المتر (ريال)</div><div class="input-wrapper"><input type="number" id="meterPrice" oninput="calculateAll()"></div></div>
+    <div class="field-group"><div class="field-label">الضريبة المضافة (%)</div><div class="input-wrapper"><input type="number" id="taxPercent" value="5" oninput="calculateAll()"></div></div>
+    <div class="field-group"><div class="field-label">السعي والعمولة (%)</div><div class="input-wrapper"><input type="number" id="commPercent" value="2.5" oninput="calculateAll()"></div></div>
+    <div class="field-group highlight-row"><div class="field-label">إجمالي قيمة الأرض</div><div class="input-wrapper"><input type="text" id="totalLand" class="readonly" readonly></div></div>
+
+    <div class="section-title">تكاليف البناء والوحدات</div>
+    <div class="field-group"><div class="field-label">نسبة مسطحات البناء الكلية (%)</div><div class="input-wrapper"><input type="number" id="buildRatio" value="150" oninput="calculateAll()"></div></div>
     <div class="field-group"><div class="field-label">تكلفة البناء للمتر</div><div class="input-wrapper"><input type="number" id="constCostM" value="1850" oninput="calculateAll()"></div></div>
     <div class="field-group"><div class="field-label">عدد الوحدات السكنية</div><div class="input-wrapper"><input type="number" id="unitsCount" oninput="calculateAll()"></div></div>
     
     <div class="section-title">تحليل المبيعات والربح</div>
     <div class="field-group"><div class="field-label">نسبة الربح المطلوبة (%)</div><div class="input-wrapper"><input type="number" id="profitMargin" oninput="calculateAll()"></div></div>
-    <div class="field-group highlight-row"><div class="field-label">إجمالي المبيعات</div><div class="input-wrapper"><input type="text" id="totalSales" class="readonly" readonly></div></div>
-    <div class="field-group"><div class="field-label" style="color: var(--akdal-bronze); font-size: 16px;">متوسط سعر بيع الوحدة</div><div class="input-wrapper"><input type="text" id="avgUnitSale" class="readonly" style="border: 2px solid var(--akdal-bronze);" readonly></div></div>
+    <div class="field-group highlight-row"><div class="field-label" style="color: var(--danger);">إجمالي تكلفة المشروع</div><div class="input-wrapper"><input type="text" id="grandProjectCost" class="readonly" readonly></div></div>
+    <div class="field-group sale-row"><div class="field-label" style="color: var(--success);">إجمالي المبيعات المستهدفة</div><div class="input-wrapper"><input type="text" id="totalSales" class="readonly" readonly></div></div>
+    <div class="field-group highlight-row"><div class="field-label" style="color: var(--akdal-bronze); font-size: 16px;">متوسط سعر بيع الوحدة</div><div class="input-wrapper"><input type="text" id="avgUnitSale" class="readonly" style="border: 2px solid var(--akdal-bronze);" readonly></div></div>
     <div class="field-group"><div class="field-label">صافي الربح المتوقع</div><div class="input-wrapper"><input type="text" id="expectedProfit" class="readonly" readonly></div></div>
 
     <div class="action-panel">
-        <button class="action-btn btn-pdf" onclick="exportPDF()">حفظ PDF</button>
-        <button class="action-btn btn-whatsapp" onclick="shareWhatsApp()">واتساب</button>
+        <button class="action-btn btn-pdf" onclick="exportPDF()">حفظ التقرير PDF</button>
+        <button class="action-btn btn-whatsapp" onclick="shareWhatsApp()">إرسال واتساب</button>
         <button class="action-btn btn-save" onclick="location.reload()">تفريغ البيانات</button>
     </div>
 </div>
@@ -63,28 +71,44 @@
     function calculateAll() {
         const area = parseFloat(document.getElementById('landArea').value) || 0;
         const price = parseFloat(document.getElementById('meterPrice').value) || 0;
+        const tax = parseFloat(document.getElementById('taxPercent').value) || 0;
+        const comm = parseFloat(document.getElementById('commPercent').value) || 0;
+        const ratio = parseFloat(document.getElementById('buildRatio').value) || 0;
         const constM = parseFloat(document.getElementById('constCostM').value) || 0;
         const units = parseFloat(document.getElementById('unitsCount').value) || 0;
         const margin = parseFloat(document.getElementById('profitMargin').value) || 0;
 
-        const totalLand = area * price * 1.075; // شامل ضريبة وسعي
-        const buildCost = (area * 1.5) * constM; // افتراض مسطحات بناء 150%
-        const totalCost = totalLand + buildCost;
-        
-        const profit = totalCost * (margin/100);
-        const sales = totalCost + profit;
+        // حساب قيمة الأرض
+        const baseLand = area * price;
+        const totalLand = baseLand + (baseLand * (tax/100)) + (baseLand * (comm/100));
+        document.getElementById('totalLand').value = totalLand > 0 ? Math.round(totalLand).toLocaleString() + " ر.س" : "";
+
+        // حساب تكلفة البناء وإجمالي التكلفة
+        const buildCost = (area * (ratio/100)) * constM;
+        const grandTotal = totalLand + buildCost;
+        document.getElementById('grandProjectCost').value = grandTotal > 0 ? Math.round(grandTotal).toLocaleString() + " ر.س" : "";
+
+        // حساب المبيعات والربح
+        const profit = grandTotal * (margin/100);
+        const sales = grandTotal + profit;
 
         document.getElementById('totalSales').value = sales > 0 ? Math.round(sales).toLocaleString() + " ر.س" : "";
         document.getElementById('expectedProfit').value = profit > 0 ? Math.round(profit).toLocaleString() + " ر.س" : "";
         
-        // حساب متوسط بيع الوحدة
+        // متوسط بيع الوحدة
         const avgSale = units > 0 ? Math.round(sales / units) : 0;
         document.getElementById('avgUnitSale').value = avgSale > 0 ? avgSale.toLocaleString() + " ر.س" : "";
     }
 
-    function exportPDF() { html2pdf().from(document.getElementById('studyContent')).save('دراسة_أكدال.pdf'); }
+    function exportPDF() {
+        const element = document.getElementById('studyContent');
+        html2pdf().from(element).save('دراسة_جدوى_أكدال.pdf');
+    }
+
     function shareWhatsApp() {
-        const msg = `دراسة أكدال%0Aالمبيعات: ${document.getElementById('totalSales').value}%0Aمتوسط سعر الوحدة: ${document.getElementById('avgUnitSale').value}`;
+        const sales = document.getElementById('totalSales').value;
+        const avg = document.getElementById('avgUnitSale').value;
+        const msg = `*دراسة جدوى شركة أكدال العقارية*%0Aإجمالي المبيعات: ${sales}%0Aمتوسط سعر بيع الوحدة: ${avg}`;
         window.open(`https://wa.me/?text=${msg}`, '_blank');
     }
 </script>
