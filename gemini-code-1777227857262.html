@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>أكدال العقارية | نظام دراسة الجدوى المتكامل</title>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    
+    <style>
+        :root { 
+            --akdal-bronze: #bc937a; 
+            --akdal-dark: #231f20; 
+            --white: #ffffff;
+            --success: #10b981;
+            --danger: #e11d48;
+        }
+
+        body { font-family: 'Tajawal', sans-serif; background-color: #f4f7f9; margin: 0; padding: 0; color: var(--akdal-dark); }
+
+        .hero-section { background: var(--akdal-dark); color: white; padding: 30px 20px; text-align: center; border-bottom: 4px solid var(--akdal-bronze); }
+        .hero-section h1 { margin: 0; font-size: 24px; color: var(--akdal-bronze); }
+
+        .form-container { 
+            max-width: 1000px; background: var(--white); margin: -20px auto 40px; 
+            padding: 40px; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); 
+        }
+
+        /* تنسيق الشعار الجديد - يمين وواضح جداً */
+        .header-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; border-bottom: 2px solid #f4f4f4; padding-bottom: 20px; }
+        .logo-wrapper { flex: 1; text-align: right; }
+        .logo-img { height: 130px; width: auto; object-fit: contain; } /* تكبير الشعار */
+        .study-title { text-align: left; flex: 1; }
+        .study-title h2 { margin: 0; color: var(--akdal-dark); font-size: 24px; }
+        .study-title p { color: var(--akdal-bronze); font-weight: bold; margin-top: 5px; }
+
+        .section-title { font-weight: 800; margin: 30px 0 15px 0; display: flex; align-items: center; gap: 10px; font-size: 18px; border-right: 5px solid var(--akdal-bronze); padding-right: 15px; }
+        
+        .field-group { display: flex; align-items: center; margin-bottom: 12px; gap: 15px; }
+        .field-label { flex: 0 0 280px; font-size: 14px; font-weight: 700; color: #444; }
+        .input-wrapper { flex: 1; display: flex; gap: 10px; }
+
+        input, select { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px; font-family: 'Tajawal'; font-size: 14px; }
+        input:focus { border-color: var(--akdal-bronze); outline: none; }
+        .readonly { background: #f8f9fa; font-weight: 800; color: var(--akdal-dark); cursor: not-allowed; }
+
+        .type-selector { display: flex; gap: 10px; flex: 1; }
+        .type-btn { flex: 1; padding: 12px; border: 1px solid #ddd; background: #fff; cursor: pointer; border-radius: 8px; font-weight: 700; text-align: center; }
+        .type-btn.active { background: var(--akdal-dark); color: var(--akdal-bronze); border-color: var(--akdal-dark); }
+
+        .highlight-row { background: #fffcf5; padding: 15px; border-radius: 10px; border: 1px solid #f1e3d4; }
+
+        /* الأزرار */
+        .action-panel { margin-top: 40px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; padding-top: 25px; border-top: 2px solid #eee; }
+        .action-btn { padding: 16px; border: none; border-radius: 10px; cursor: pointer; font-family: 'Tajawal'; font-weight: 800; font-size: 15px; display: flex; align-items: center; justify-content: center; gap: 8px; transition: 0.3s; }
+        .btn-pdf { background: #d32f2f; color: white; }
+        .btn-whatsapp { background: #25d366; color: white; }
+        .btn-save { background: var(--akdal-dark); color: var(--akdal-bronze); border: 1px solid var(--akdal-bronze); }
+
+        /* الأرشيف */
+        .archive-section { max-width: 1000px; margin: 20px auto 100px; background: white; padding: 30px; border-radius: 15px; }
+        .archive-table { width: 100%; border-collapse: collapse; margin-top: 15px; }
+        .archive-table th, .archive-table td { text-align: right; padding: 12px; border-bottom: 1px solid #eee; }
+        .archive-table th { background: #f8f8f8; color: #666; }
+        .restore-btn { background: #e3f2fd; color: #1976d2; border: none; padding: 6px 12px; border-radius: 5px; cursor: pointer; font-weight: bold; }
+        .delete-btn { background: #ffebee; color: #c62828; border: none; padding: 6px 12px; border-radius: 5px; cursor: pointer; font-weight: bold; }
+
+        @media print { .action-panel, #ratioDropdown, #customRatioBox, .tag span, .archive-section, .hero-section { display: none !important; } body { background: white; } .form-container { box-shadow: none; margin: 0; width: 100%; } }
+    </style>
+</head>
+<body>
+
+<div class="hero-section">
+    <h1>نظام أكدال الذكي للتحليل الاستثماري</h1>
+</div>
+
+<div class="form-container" id="studyContent">
+    <div class="header-top">
+        <div class="logo-wrapper">
+            <img src="Akdal - Logo versions.ai.svg" alt="أكدال العقارية" class="logo-img">
+        </div>
+        <div class="study-title">
+            <h2>تقرير دراسة جدوى</h2>
+            <p>مشروع تطوير عقاري</p>
+        </div>
+    </div>
+
+    <div class="field-group">
+        <div class="field-label">نوع المشروع</div>
+        <div class="type-selector">
+            <div class="type-btn" id="btn-mix" onclick="updateProjectType('مختلط', this)">مختلط</div>
+            <div class="type-btn active" id="btn-res" onclick="updateProjectType('سكني', this)">سكني</div>
+            <div class="type-btn" id="btn-com" onclick="updateProjectType('تجاري', this)">تجاري</div>
+        </div>
+    </div>
+
+    <div class="section-title">بيانات الاستحواذ على الأرض</div>
+    <div class="field-group">
+        <div class="field-label">مساحة الأرض (م2)</div>
+        <div class="input-wrapper"><input type="number" id="landArea" oninput="calculateAll()"></div>
+    </div>
+    <div class="field-group">
+        <div class="field-label">سعر شراء المتر (ريال)</div>
+        <div class="input-wrapper"><input type="number" id="meterPrice" oninput="calculateAll()"></div>
+    </div>
+    <div class="field-group">
+        <div class="field-label">الضريبة المضافة (5%)</div>
+        <div class="input-wrapper"><input type="number" id="taxPercent" value="5" oninput="calculateAll()"></div>
+    </div>
+    <div class="field-group">
+        <div class="field-label">السعي والعمولة (2.5%)</div>
+        <div class="input-wrapper"><input type="number" id="commPercent" value="2.5" oninput="calculateAll()"></div>
+    </div>
+    <div class="field-group highlight-row">
+        <div class="field-label">إجمالي قيمة الأرض</div>
+        <div class="input-wrapper"><input type="text" id="totalLand" class="readonly" readonly></div>
+    </div>
+
+    <div class="section-title">تحليل مسطحات البناء</div>
+    <div style="background: #f9f9f9; padding: 15px; border-radius: 10px; margin-bottom: 15px;">
+        <select id="ratioDropdown" onchange="addSelectedRatio(this.value)">
+            <option value="">+ إضافة نسبة بناء (أرضي، أول، ملحق...)</option>
+            <option value="120">120%</option>
+            <option value="71">71%</option>
+            <option value="70">70%</option>
+            <option value="65">65%</option>
+            <option value="60">60%</option>
+            <option value="30">30%</option>
+            <option value="custom">إدخال نسبة مخصصة...</option>
+        </select>
+        <div id="customRatioBox" style="display:none; margin-top:10px; gap: 10px;" class="input-wrapper">
+            <input type="number" id="customRatioInput" placeholder="%" style="width: 80px;">
+            <button onclick="addCustomRatio()" style="background:var(--akdal-dark); color:white; border:none; padding:8px 15px; border-radius:5px; cursor:pointer;">إضافة</button>
+        </div>
+        <div id="tagsBox" style="display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px;"></div>
+    </div>
+
+    <div class="field-group">
+        <div class="field-label">إجمالي المسطحات الكلية</div>
+        <div class="input-wrapper"><input type="text" id="grandTotalArea" class="readonly" readonly></div>
+    </div>
+
+    <div class="section-title">تكاليف المشروع والوحدات</div>
+    <div class="field-group">
+        <div class="field-label">تكلفة البناء للمتر</div>
+        <div class="input-wrapper"><input type="number" id="constCostM" value="1850" oninput="calculateAll()"></div>
+    </div>
+    <div class="field-group">
+        <div class="field-label">عدد الوحدات السكنية</div>
+        <div class="input-wrapper"><input type="number" id="unitsCount" placeholder="0" oninput="calculateAll()"></div>
+    </div>
+    <div class="field-group highlight-row">
+        <div class="field-label" style="color: var(--danger);">إجمالي تكلفة المشروع</div>
+        <div class="input-wrapper"><input type="text" id="grandProjectCost" class="readonly" style="color: var(--danger);" readonly></div>
+    </div>
+    <div class="field-group">
+        <div class="field-label">تكلفة المتر للمشروع</div>
+        <div class="input-wrapper"><input type="text" id="costPerMeterProj" class="readonly" readonly></div>
+    </div>
+    <div class="field-group">
+        <div class="field-label">متوسط تكلفة الوحدة</div>
+        <div class="input-wrapper"><input type="text" id="avgUnitCost" class="readonly" readonly></div>
+    </div>
+
+    <div class="section-title">تحليل المبيعات والربح</div>
+    <div class="field-group">
+        <div class="field-label">نسبة الربح المطلوبة (%)</div>
+        <div class="input-wrapper"><input type="number" id="profitMargin" placeholder="%" oninput="calculateAll()"></div>
+    </div>
+    <div class="field-group">
+        <div class="field-label">سعر البيع للمتر المستهدف</div>
+        <div class="input-wrapper"><input type="text" id="salePriceMeter" class="readonly" style="color: var(--success);" readonly></div>
+    </div>
+    <div class="field-group highlight-row" style="background: #f0fdf4;">
+        <div class="field-label" style="color: var(--success);">إجمالي المبيعات</div>
+        <div class="input-wrapper"><input type="text" id="totalSales" class="readonly" style="color: var(--success);" readonly></div>
+    </div>
+    <div class="field-group">
+        <div class="field-label">صافي الربح المتوقع</div>
+        <div class="input-wrapper"><input type="text" id="expectedProfit" class="readonly" readonly></div>
+    </div>
+
+    <div class="action-panel">
+        <button class="action-btn btn-pdf" onclick="exportPDF()">حفظ التقرير PDF</button>
+        <button class="action-btn btn-whatsapp" onclick="shareWhatsApp()">ارسال عبر الواتساب</button>
+        <button class="action-btn btn-save" onclick="saveToArchive()">حفظ الدراسة في السجل</button>
+    </div>
+</div>
+
+<div class="archive-section">
+    <div class="section-title">سجل الدراسات المحفوظة (الأرشيف)</div>
+    <table class="archive-table">
+        <thead>
+            <tr>
+                <th>التاريخ</th>
+                <th>المساحة</th>
+                <th>إجمالي التكلفة</th>
+                <th>الربح المتوقع</th>
+                <th>إجراءات</th>
+            </tr>
+        </thead>
+        <tbody id="archiveBody"></tbody>
+    </table>
+</div>
+
+<script>
+    let ratios = [];
+    let currentType = 'سكني';
+
+    function updateProjectType(type, btn) {
+        currentType = type;
+        document.querySelectorAll('.type-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        const costInput = document.getElementById('constCostM');
+        if(type === 'سكني') costInput.value = 1850;
+        else if(type === 'تجاري') costInput.value = 2000;
+        calculateAll();
+    }
+
+    function addSelectedRatio(val) {
+        if (val === "custom") {
+            document.getElementById('customRatioBox').style.display = 'flex';
+        } else if (val !== "") {
+            document.getElementById('customRatioBox').style.display = 'none';
+            ratios.push(parseFloat(val));
+            renderRatios();
+            calculateAll();
+            document.getElementById('ratioDropdown').value = "";
+        }
+    }
+
+    function addCustomRatio() {
+        const val = document.getElementById('customRatioInput').value;
+        if(val) {
+            ratios.push(parseFloat(val));
+            document.getElementById('customRatioInput').value = '';
+            document.getElementById('customRatioBox').style.display = 'none';
+            renderRatios();
+            calculateAll();
+        }
+    }
+
+    function renderRatios() {
+        const box = document.getElementById('tagsBox');
+        box.innerHTML = ratios.map((r, i) => `<div style="background:var(--akdal-bronze); color:white; padding:5px 12px; border-radius:5px; display:flex; align-items:center; gap:5px;">${r}% <span onclick="ratios.splice(${i},1); renderRatios(); calculateAll();" style="cursor:pointer; font-weight:bold;">×</span></div>`).join('');
+    }
+
+    function calculateAll() {
+        const area = parseFloat(document.getElementById('landArea').value) || 0;
+        const price = parseFloat(document.getElementById('meterPrice').value) || 0;
+        const taxP = parseFloat(document.getElementById('taxPercent').value) || 0;
+        const commP = parseFloat(document.getElementById('commPercent').value) || 0;
+        const constM = parseFloat(document.getElementById('constCostM').value) || 0;
+        const units = parseFloat(document.getElementById('unitsCount').value) || 0;
+        const margin = parseFloat(document.getElementById('profitMargin').value) || 0;
+
+        const baseLand = area * price;
+        const totalLand = baseLand + (baseLand * (taxP/100)) + (baseLand * (commP/100));
+        document.getElementById('totalLand').value = totalLand > 0 ? totalLand.toLocaleString() + " ر.س" : "";
+
+        const sumRatios = ratios.reduce((a, b) => a + b, 0) / 100;
+        const grandArea = (area * sumRatios) + (area * 0.45); // شامل الخزانات والأسوار
+        document.getElementById('grandTotalArea').value = grandArea > 0 ? Math.round(grandArea).toLocaleString() + " م2" : "";
+
+        const buildCost = grandArea * constM;
+        const grandTotal = totalLand + buildCost;
+        document.getElementById('grandProjectCost').value = grandTotal > 0 ? grandTotal.toLocaleString() + " ر.س" : "";
+
+        document.getElementById('costPerMeterProj').value = area > 0 ? Math.round(grandTotal / area).toLocaleString() + " ر.س" : "";
+        document.getElementById('avgUnitCost').value = units > 0 ? Math.round(grandTotal / units).toLocaleString() + " ر.س" : "";
+
+        const profit = grandTotal * (margin/100);
+        const sales = grandTotal + profit;
+        document.getElementById('totalSales').value = sales > 0 ? sales.toLocaleString() + " ر.س" : "";
+        document.getElementById('expectedProfit').value = profit > 0 ? profit.toLocaleString() + " ر.س" : "";
+        document.getElementById('salePriceMeter').value = area > 0 ? Math.round(sales / area).toLocaleString() + " ر.س" : "";
+    }
+
+    function exportPDF() {
+        const element = document.getElementById('studyContent');
+        const opt = {
+            margin: 10,
+            filename: 'دراسة_أكدال_العقارية.pdf',
+            image: { type: 'jpeg', quality: 0.98 },
+            html2canvas: { scale: 2 },
+            jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+        };
+        html2pdf().set(opt).from(element).save();
+    }
+
+    function shareWhatsApp() {
+        const area = document.getElementById('landArea').value;
+        const cost = document.getElementById('grandProjectCost').value;
+        const profit = document.getElementById('expectedProfit').value;
+        const msg = `*دراسة جدوى شركة أكدال العقارية*%0Aالمساحة: ${area}م2%0Aإجمالي التكلفة: ${cost}%0Aالربح المتوقع: ${profit}`;
+        window.open(`https://wa.me/?text=${msg}`, '_blank');
+    }
+
+    function saveToArchive() {
+        const data = {
+            id: Date.now(),
+            date: new Date().toLocaleString('ar-SA'),
+            area: document.getElementById('landArea').value,
+            cost: document.getElementById('grandProjectCost').value,
+            profit: document.getElementById('expectedProfit').value,
+            inputs: {
+                landArea: document.getElementById('landArea').value,
+                meterPrice: document.getElementById('meterPrice').value,
+                tax: document.getElementById('taxPercent').value,
+                comm: document.getElementById('commPercent').value,
+                constM: document.getElementById('constCostM').value,
+                units: document.getElementById('unitsCount').value,
+                margin: document.getElementById('profitMargin').value,
+                ratios: ratios
+            }
+        };
+        let archive = JSON.parse(localStorage.getItem('akdal_archive') || '[]');
+        archive.push(data);
+        localStorage.setItem('akdal_archive', JSON.stringify(archive));
+        renderArchive();
+        alert("تم حفظ الدراسة في السجل.");
+    }
+
+    function renderArchive() {
+        const archive = JSON.parse(localStorage.getItem('akdal_archive') || '[]');
+        const body = document.getElementById('archiveBody');
+        body.innerHTML = archive.map(item => `
+            <tr>
+                <td>${item.date}</td>
+                <td>${item.area} م2</td>
+                <td>${item.cost}</td>
+                <td>${item.profit}</td>
+                <td>
+                    <button class="restore-btn" onclick="restoreStudy(${item.id})">استعادة</button>
+                    <button class="delete-btn" onclick="deleteStudy(${item.id})">حذف</button>
+                </td>
+            </tr>
+        `).join('');
+    }
+
+    function restoreStudy(id) {
+        const archive = JSON.parse(localStorage.getItem('akdal_archive') || '[]');
+        const item = archive.find(i => i.id === id);
+        if(item) {
+            const inp = item.inputs;
+            document.getElementById('landArea').value = inp.landArea;
+            document.getElementById('meterPrice').value = inp.meterPrice;
+            document.getElementById('taxPercent').value = inp.tax;
+            document.getElementById('commPercent').value = inp.comm;
+            document.getElementById('constCostM').value = inp.constM;
+            document.getElementById('unitsCount').value = inp.units;
+            document.getElementById('profitMargin').value = inp.margin;
+            ratios = inp.ratios;
+            renderRatios();
+            calculateAll();
+            window.scrollTo(0,0);
+        }
+    }
+
+    function deleteStudy(id) {
+        let archive = JSON.parse(localStorage.getItem('akdal_archive') || '[]');
+        archive = archive.filter(i => i.id !== id);
+        localStorage.setItem('akdal_archive', JSON.stringify(archive));
+        renderArchive();
+    }
+
+    window.onload = renderArchive;
+</script>
+</body>
+</html>
