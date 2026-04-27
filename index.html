@@ -169,7 +169,8 @@
     </div>
     <div class="field-group">
         <div class="field-label">سعر البيع للمتر المستهدف</div>
-        <div class="input-wrapper"><input type="text" id="salePriceMeter" class="readonly" style="color: var(--success);" readonly></div>
+        <div class="input-wrapper"><input type="text" id="salePriceMeter" class="readonly" style="color: var(--success);" readonly> </div> 
+        document.getElementById('avgUnitSale').value = units > 0 ? Math.round(sales / units).toLocaleString() + " ر.س" : "";
     </div>
     <div class="field-group highlight-row" style="background: #f0fdf4;">
         <div class="field-label" style="color: var(--success);">إجمالي المبيعات</div>
