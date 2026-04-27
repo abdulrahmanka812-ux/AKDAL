@@ -357,6 +357,14 @@
             ratios = inp.ratios;
             renderRatios();
             calculateAll();
+            const profit = grandTotal * (margin/100);
+        const sales = grandTotal + profit;
+        document.getElementById('totalSales').value = sales > 0 ? sales.toLocaleString() + " ر.س" : "";
+        document.getElementById('expectedProfit').value = profit > 0 ? profit.toLocaleString() + " ر.س" : "";
+        document.getElementById('salePriceMeter').value = area > 0 ? Math.round(sales / area).toLocaleString() + " ر.س" : "";
+        
+        // إضافة الحسبة لمتوسط بيع الوحدة هنا
+        document.getElementById('avgUnitSale').value = units > 0 ? Math.round(sales / units).toLocaleString() + " ر.س" : "";
             window.scrollTo(0,0);
         }
     }
