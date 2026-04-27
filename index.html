@@ -162,23 +162,22 @@
         <div class="input-wrapper"><input type="text" id="avgUnitCost" class="readonly" readonly></div>
     </div>
 
-    <div class="section-title">تحليل المبيعات والربح</div>
+<div class="section-title">تحليل المبيعات والربح</div>
     <div class="field-group">
         <div class="field-label">نسبة الربح المطلوبة (%)</div>
         <div class="input-wrapper"><input type="number" id="profitMargin" placeholder="%" oninput="calculateAll()"></div>
     </div>
     <div class="field-group">
         <div class="field-label">سعر البيع للمتر المستهدف</div>
-        <div class="input-wrapper"><input type="text" id="salePriceMeter" class="readonly" style="color: var(--success);" readonly> </div> 
-        document.getElementById('avgUnitSale').value = units > 0 ? Math.round(sales / units).toLocaleString() + " ر.س" : "";
+        <div class="input-wrapper"><input type="text" id="salePriceMeter" class="readonly" style="color: var(--success);" readonly></div>
     </div>
     <div class="field-group highlight-row" style="background: #f0fdf4;">
         <div class="field-label" style="color: var(--success);">إجمالي المبيعات</div>
         <div class="input-wrapper"><input type="text" id="totalSales" class="readonly" style="color: var(--success);" readonly></div>
-        <div class="field-group">
-    <div class="field-label">متوسط سعر بيع الوحدة</div>
-    <div class="input-wrapper"><input type="text" id="avgUnitSale" class="readonly" readonly></div>
-</div>
+    </div>
+    <div class="field-group">
+        <div class="field-label">متوسط سعر بيع الوحدة</div>
+        <div class="input-wrapper"><input type="text" id="avgUnitSale" class="readonly" readonly></div>
     </div>
     <div class="field-group">
         <div class="field-label">صافي الربح المتوقع</div>
